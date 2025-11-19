@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COBRA TOOLS ✖✖✖ UNDERGROUND EDITION</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Courier+Prime:wght@400;700&family=Bebas+Neue&family=Black+Ops+One&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            cursor: crosshair;
+        }
+
+        /* Grungy concrete wall with spray paint */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 128, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(121, 40, 202, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 60%),
+                repeating-linear-gradient(0deg, #0a0a0a 0px, #0a0a0a 1px, transparent 1px, transparent 3px),
+                repeating-linear-gradient(90deg, #0a0a0a 0px, #0a0a0a 1px, transparent 1px, transparent 3px),
+                linear-gradient(180deg, #000 0%, #0f0f0f 30%, #1a1a1a 60%, #0a0a0a 100%);
+            z-index: -2;
+        }
+
+        /* Spray paint splatters */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(ellipse at 15% 20%, rgba(255, 0, 128, 0.4) 0%, transparent 30%),
+                radial-gradient(ellipse at 85% 80%, rgba(121, 40, 202, 0.4) 0%, transparent 30%),
+                radial-gradient(ellipse at 60% 10%, rgba(0, 255, 136, 0.3) 0%, transparent 25%),
+                radial-gradient(ellipse at 30% 90%, rgba(255, 0, 128, 0.3) 0%, transparent 25%);
+            filter: blur(60px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: spraymove 20s ease-in-out infinite;
+        }
+
+        @keyframes spraymove {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Heavy grunge texture overlay */
+        .grunge-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='6' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 999;
+            mix-blend-mode: overlay;
+        }
+
+        /* Aggressive paint drips */
+        .drip {
+            position: absolute;
+            width: 12px;
+            background: linear-gradient(180deg, currentColor 0%, transparent 100%);
+            animation: drip 4s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .drip.pink { color: #ff0080; }
+        .drip.purple { color: #7928ca; }
+        .drip.green { color: #00ff88; }
+
+        @keyframes drip {
+            0% { height: 30px; opacity: 1; }
+            50% { height: 120px; opacity: 0.6; }
+            100% { height: 30px; opacity: 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* AGGRESSIVE header with glitch */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding: 60px 20px 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 4px solid;
+            border-image: linear-gradient(135deg, #ff0080, #7928ca, #00ff88) 1;
+            clip-path: polygon(
+                0% 5%, 5% 0%, 95% 0%, 100% 5%, 
+                100% 95%, 95% 100%, 5% 100%, 0% 95%
+            );
+            box-shadow: 
+                0 0 40px rgba(255, 0, 128, 0.5),
+                inset 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .header::before {
+            content: '⚠';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-15deg);
+            font-size: 6rem;
+            opacity: 0.2;
+            animation: warning 2s ease-in-out infinite;
+        }
+
+        @keyframes warning {
+            0%, 100% { transform: translateX(-50%) rotate(-15deg) scale(1); }
+            50% { transform: translateX(-50%) rotate(-15deg) scale(1.1); }
+        }
+
+        /* Extreme glitch effect */
+        .header h1 {
+            font-family: 'Black Ops One', cursive;
+            font-size: 6rem;
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            background: linear-gradient(135deg, #ff0080 0%, #7928ca 50%, #00ff88 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            position: relative;
+            text-shadow: 
+                5px 5px 0px rgba(255, 0, 128, 0.5),
+                -5px -5px 0px rgba(121, 40, 202, 0.5);
+            animation: extremeGlitch 4s infinite;
+        }
+
+        @keyframes extremeGlitch {
+            0%, 100% { 
+                transform: translate(0); 
+                filter: hue-rotate(0deg);
+            }
+            10% { 
+                transform: translate(-5px, 5px) skew(-2deg); 
+                filter: hue-rotate(90deg);
+            }
+            20% { 
+                transform: translate(5px, -5px) skew(2deg); 
+                filter: hue-rotate(-90deg);
+            }
+            30% { transform: translate(-5px, -5px); }
+            40% { transform: translate(5px, 5px); }
+            50% { 
+                transform: translate(0) scale(1.02); 
+                filter: hue-rotate(180deg);
+            }
+            60% { transform: translate(-3px, 3px); }
+            70% { transform: translate(3px, -3px); }
+            80% { transform: translate(-2px, -2px); }
+            90% { transform: translate(2px, 2px); }
+        }
+
+        /* Spray paint subtitle */
+        .header .subtitle {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2rem;
+            color: #00ff88;
+            transform: rotate(-3deg);
+            display: inline-block;
+            text-shadow: 
+                3px 3px 0 #000,
+                -2px -2px 0 rgba(255, 0, 128, 0.5);
+            filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.8));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: rotate(-3deg) translateY(0); }
+            50% { transform: rotate(-3deg) translateY(-10px); }
+        }
+
+        .header .tagline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            color: #000;
+            background: #ff0080;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            border: 3px solid #000;
+            display: inline-block;
+            padding: 8px 25px;
+            transform: rotate(2deg);
+            box-shadow: 
+                5px 5px 0 #00ff88,
+                10px 10px 0 #7928ca;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: rotate(2deg) scale(1); 
+                box-shadow: 5px 5px 0 #00ff88, 10px 10px 0 #7928ca;
+            }
+            50% { 
+                transform: rotate(2deg) scale(1.05); 
+                box-shadow: 8px 8px 0 #00ff88, 16px 16px 0 #7928ca;
+            }
+        }
+
+        /* Chaotic torn paper tabs */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            font-family: 'Black Ops One', cursive;
+            font-size: 1.5rem;
+            padding: 20px 35px;
+            background: #000;
+            border: 4px solid;
+            color: #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            transition: all 0.3s;
+            clip-path: polygon(
+                2% 0%, 98% 0%, 100% 8%, 100% 92%, 98% 100%, 
+                2% 100%, 0% 92%, 0% 8%
+            );
+            box-shadow: 
+                8px 8px 0 rgba(0, 0, 0, 0.8),
+                0 0 20px currentColor;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+
+        .tab-button:nth-child(1) {
+            border-color: #ff0080;
+            color: #ff0080;
+            transform: rotate(-4deg);
+        }
+
+        .tab-button:nth-child(2) {
+            border-color: #00ff88;
+            color: #00ff88;
+            transform: rotate(3deg);
+        }
+
+        .tab-button:hover {
+            transform: rotate(0deg) scale(1.1);
+            box-shadow: 
+                12px 12px 0 rgba(0, 0, 0, 0.9),
+                0 0 30px currentColor;
+            animation: shake 0.3s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg) scale(1.1) translate(0, 0); }
+            25% { transform: rotate(0deg) scale(1.1) translate(-2px, 2px); }
+            50% { transform: rotate(0deg) scale(1.1) translate(2px, -2px); }
+            75% { transform: rotate(0deg) scale(1.1) translate(-2px, -2px); }
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #ff0080, #7928ca, #00ff88);
+            border-color: #fff;
+            color: #000;
+            font-weight: bold;
+            animation: activeTab 2s infinite;
+            transform: rotate(0deg) scale(1.15);
+            box-shadow: 
+                0 0 40px rgba(255, 0, 128, 0.8),
+                0 0 80px rgba(121, 40, 202, 0.6);
+        }
+
+        @keyframes activeTab {
+            0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+            50% { filter: brightness(1.2) hue-rotate(10deg); }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: slideInChaos 0.6s;
+        }
+
+        @keyframes slideInChaos {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-100px) rotate(-5deg); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateX(0) rotate(0deg); 
+            }
+        }
+
+        /* Destroyed zine cards */
+        .card {
+            background: rgba(10, 10, 10, 0.95);
+            border: 5px solid #333;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            box-shadow: 
+                12px 12px 0 rgba(255, 0, 128, 0.4),
+                -12px -12px 0 rgba(121, 40, 202, 0.4),
+                0 0 60px rgba(0, 0, 0, 0.8),
+                inset 0 0 40px rgba(0, 0, 0, 0.5);
+            clip-path: polygon(
+                1% 3%, 5% 0%, 95% 0%, 99% 3%, 
+                100% 97%, 96% 100%, 4% 100%, 0% 97%
+            );
+            transform: rotate(-1deg);
+        }
+
+        .card:nth-child(even) {
+            transform: rotate(1deg);
+        }
+
+        /* Spray paint X marks */
+        .card::before {
+            content: '✖';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 4rem;
+            color: #ff0080;
+            opacity: 0.15;
+            transform: rotate(15deg);
+            filter: blur(1px);
+            text-shadow: 0 0 20px #ff0080;
+        }
+
+        .card::after {
+            content: '✖';
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-size: 3rem;
+            color: #00ff88;
+            opacity: 0.15;
+            transform: rotate(-25deg);
+            filter: blur(1px);
+            text-shadow: 0 0 20px #00ff88;
+        }
+
+        .card h2 {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3rem;
+            color: #00ff88;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            text-shadow: 
+                4px 4px 0 rgba(0, 0, 0, 0.8),
+                -2px -2px 0 rgba(255, 0, 128, 0.5),
+                0 0 20px #00ff88;
+            border-bottom: 5px solid;
+            border-image: linear-gradient(90deg, #ff0080, #7928ca, #00ff88) 1;
+            padding-bottom: 15px;
+            position: relative;
+        }
+
+        .card h2::before {
+            content: '// ';
+            color: #ff0080;
+            text-shadow: 0 0 10px #ff0080;
+        }
+
+        .card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            filter: blur(5px);
+        }
+
+        /* Ripped cutout tool cards */
+        .tool-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid;
+            padding: 30px;
+            margin: 25px 0;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(
+                0% 3%, 3% 0%, 97% 0%, 100% 2%, 
+                100% 98%, 98% 100%, 2% 100%, 0% 97%
+            );
+        }
+
+        /* Distressed pattern overlay */
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 15px,
+                    rgba(255, 0, 128, 0.03) 15px,
+                    rgba(255, 0, 128, 0.03) 30px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 15px,
+                    rgba(121, 40, 202, 0.03) 15px,
+                    rgba(121, 40, 202, 0.03) 30px
+                );
+            pointer-events: none;
+        }
+
+        .tool-card:nth-child(odd) {
+            border-color: #ff0080;
+            transform: rotate(-2deg);
+            box-shadow: 
+                10px 10px 0 rgba(255, 0, 128, 0.3),
+                0 0 30px rgba(255, 0, 128, 0.2);
+        }
+
+        .tool-card:nth-child(even) {
+            border-color: #00ff88;
+            transform: rotate(2deg);
+            box-shadow: 
+                10px 10px 0 rgba(0, 255, 136, 0.3),
+                0 0 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .tool-card:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 
+                15px 15px 0 currentColor,
+                -5px -5px 0 rgba(121, 40, 202, 0.5),
+                0 0 50px currentColor;
+            border-width: 5px;
+            z-index: 10;
+            animation: cardShake 0.2s infinite;
+        }
+
+        @keyframes cardShake {
+            0%, 100% { transform: rotate(0deg) scale(1.05) translate(0, 0); }
+            25% { transform: rotate(0deg) scale(1.05) translate(-1px, 1px); }
+            50% { transform: rotate(0deg) scale(1.05) translate(1px, -1px); }
+            75% { transform: rotate(0deg) scale(1.05) translate(-1px, -1px); }
+        }
+
+        .tool-card h3 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+            text-shadow: 
+                3px 3px 0 #000,
+                -2px -2px 0 currentColor,
+                0 0 15px currentColor;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .tool-card p {
+            color: #ccc;
+            line-height: 1.9;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .tool-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tool-card li {
+            color: #00ff88;
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.05rem;
+        }
+
+        .tool-card li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #ff0080;
+            font-size: 1.2rem;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+
+        /* NUCLEAR button */
+        .button-primary {
+            font-family: 'Black Ops One', cursive;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #ff0080, #7928ca, #00ff88);
+            color: #000;
+            padding: 20px 50px;
+            border: 5px solid #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(
+                8% 0%, 100% 0%, 92% 100%, 0% 100%
+            );
+            box-shadow: 
+                8px 8px 0 rgba(0, 0, 0, 0.8),
+                0 0 40px rgba(255, 0, 128, 0.8);
+            font-weight: bold;
+            animation: buttonPulse 3s infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% {
+                box-shadow: 
+                    8px 8px 0 rgba(0, 0, 0, 0.8),
+                    0 0 40px rgba(255, 0, 128, 0.8);
+            }
+            50% {
+                box-shadow: 
+                    8px 8px 0 rgba(0, 0, 0, 0.8),
+                    0 0 60px rgba(255, 0, 128, 1),
+                    0 0 90px rgba(121, 40, 202, 0.6);
+            }
+        }
+
+        .button-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.5),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: scanline 2s infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .button-primary:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 
+                12px 12px 0 rgba(0, 0, 0, 0.9),
+                0 0 60px rgba(255, 0, 128, 1),
+                0 0 100px rgba(0, 255, 136, 0.8);
+            animation: extremeShake 0.3s infinite, buttonPulse 1s infinite;
+        }
+
+        @keyframes extremeShake {
+            0%, 100% { transform: scale(1.1) rotate(-2deg) translate(0, 0); }
+            25% { transform: scale(1.1) rotate(-2deg) translate(-3px, 3px); }
+            50% { transform: scale(1.1) rotate(-2deg) translate(3px, -3px); }
+            75% { transform: scale(1.1) rotate(-2deg) translate(-3px, -3px); }
+        }
+
+        /* Ripped tape */
+        .tape {
+            position: absolute;
+            width: 120px;
+            height: 35px;
+            background: rgba(255, 255, 100, 0.4);
+            border: 2px solid rgba(255, 255, 100, 0.6);
+            box-shadow: 
+                0 3px 8px rgba(0, 0, 0, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            clip-path: polygon(
+                2% 0%, 98% 0%, 100% 30%, 100% 70%, 98% 100%,
+                2% 100%, 0% 70%, 0% 30%
+            );
+        }
+
+        .tape.top-left {
+            top: -15px;
+            left: 30px;
+            transform: rotate(-8deg);
+        }
+
+        .tape.top-right {
+            top: -15px;
+            right: 30px;
+            transform: rotate(8deg);
+        }
+
+        /* Animated stickers */
+        .sticker {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.7;
+            animation: stickerFloat 8s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.8));
+            z-index: 5;
+        }
+
+        @keyframes stickerFloat {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+            }
+            25% { 
+                transform: translateY(-15px) rotate(5deg) scale(1.1); 
+            }
+            50% { 
+                transform: translateY(-25px) rotate(-5deg) scale(1.05); 
+            }
+            75% { 
+                transform: translateY(-15px) rotate(5deg) scale(1.1); 
+            }
+        }
+
+        /* Form elements - destroyed aesthetic */
+        .form-group label {
+            font-family: 'Permanent Marker', cursive;
+            color: #00ff88;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            display: block;
+            text-shadow: 
+                2px 2px 0 #000,
+                0 0 15px #00ff88;
+            filter: drop-shadow(0 0 5px #00ff88);
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid #ff0080;
+            color: #fff;
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            box-shadow: 
+                5px 5px 0 rgba(0, 0, 0, 0.5),
+                inset 0 0 20px rgba(255, 0, 128, 0.1);
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 
+                8px 8px 0 rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(0, 255, 136, 0.8),
+                inset 0 0 30px rgba(0, 255, 136, 0.2);
+            transform: scale(1.02);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(255, 0, 128, 0.05);
+            border-left: 4px solid #ff0080;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 30px;
+            height: 30px;
+            accent-color: #ff0080;
+            cursor: pointer;
+        }
+
+        /* Destroyed info boxes */
+        .info-box {
+            background: rgba(0, 255, 136, 0.05);
+            border: 3px solid #00ff88;
+            border-left: 8px solid #00ff88;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            clip-path: polygon(
+                0% 0%, 98% 0%, 100% 3%, 100% 100%, 2% 100%, 0% 97%
+            );
+            box-shadow: 
+                0 0 30px rgba(0, 255, 136, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-box::before {
+            content: '!';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-family: 'Black Ops One', cursive;
+            font-size: 3rem;
+            color: #00ff88;
+            opacity: 0.1;
+        }
+
+        .info-box h4 {
+            font-family: 'Black Ops One', cursive;
+            color: #00ff88;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px #00ff88;
+        }
+
+        .warning-box {
+            background: rgba(255, 0, 128, 0.1);
+            border: 3px solid #ff0080;
+            border-left: 8px solid #ff0080;
+            padding: 25px;
+            margin: 25px 0;
+            clip-path: polygon(
+                0% 0%, 98% 0%, 100% 3%, 100% 100%, 2% 100%, 0% 97%
+            );
+            box-shadow: 
+                0 0 30px rgba(255, 0, 128, 0.5),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            animation: warningPulse 2s infinite;
+        }
+
+        @keyframes warningPulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 30px rgba(255, 0, 128, 0.5),
+                    inset 0 0 30px rgba(0, 0, 0, 0.5);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 50px rgba(255, 0, 128, 0.8),
+                    inset 0 0 30px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        .warning-box::before {
+            content: '⚠';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 3rem;
+            opacity: 0.2;
+            animation: warningFlash 1s infinite;
+        }
+
+        @keyframes warningFlash {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+
+        .warning-box h4 {
+            font-family: 'Black Ops One', cursive;
+            color: #ff0080;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px #ff0080;
+        }
+
+        /* Graffiti tags everywhere */
+        .tag {
+            position: fixed;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2rem;
+            opacity: 0.08;
+            z-index: 0;
+            color: #ff0080;
+            pointer-events: none;
+            transform: rotate(-20deg);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .tag:nth-child(2n) {
+            color: #00ff88;
+            transform: rotate(15deg);
+        }
+
+        .tag:nth-child(3n) {
+            color: #7928ca;
+            transform: rotate(-25deg);
+        }
+
+        /* Barbed wire divider */
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff0080, #7928ca, #00ff88, transparent);
+            margin: 40px 0;
+            position: relative;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '✖';
+            position: absolute;
+            top: -10px;
+            color: #ff0080;
+            font-size: 1.5rem;
+            animation: spin 4s linear infinite;
+        }
+
+        .divider::before { left: 20%; }
+        .divider::after { right: 20%; color: #00ff88; }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                transform: rotate(0deg) !important;
+            }
+
+            .card {
+                padding: 25px;
+            }
+        }
+
+        /* Scanline effect */
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(255, 0, 128, 0.03) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 998;
+            animation: scan 10s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="grunge-overlay"></div>
+    <div class="scanline"></div>
+
+    <!-- Aggressive paint drips -->
+    <div class="drip pink" style="left: 5%; top: 0; animation-delay: 0s;"></div>
+    <div class="drip purple" style="left: 18%; top: 0; animation-delay: 0.7s;"></div>
+    <div class="drip green" style="left: 35%; top: 0; animation-delay: 1.4s;"></div>
+    <div class="drip pink" style="left: 52%; top: 0; animation-delay: 2.1s;"></div>
+    <div class="drip purple" style="left: 68%; top: 0; animation-delay: 2.8s;"></div>
+    <div class="drip green" style="left: 83%; top: 0; animation-delay: 3.5s;"></div>
+    <div class="drip pink" style="left: 95%; top: 0; animation-delay: 4.2s;"></div>
+
+    <!-- Graffiti tags scattered -->
+    <div class="tag" style="top: 15%; left: 3%;">NO BUGS</div>
+    <div class="tag" style="top: 45%; right: 2%;">DIRECT BILL</div>
+    <div class="tag" style="bottom: 25%; left: 8%;">COBRA CREW</div>
+    <div class="tag" style="top: 70%; right: 12%;">UNDERGROUND</div>
+    <div class="tag" style="bottom: 8%; right: 25%;">ZERO ERRORS</div>
+    <div class="tag" style="top: 35%; left: 15%;">PUNK AF</div>
+
+    <!-- Floating stickers -->
+    <div class="sticker" style="top: 8%; right: 8%; animation-delay: 0.5s;">🔥</div>
+    <div class="sticker" style="bottom: 12%; left: 5%; animation-delay: 1.5s;">⚡</div>
+    <div class="sticker" style="top: 60%; right: 15%; animation-delay: 2.5s;">💀</div>
+    <div class="sticker" style="bottom: 45%; left: 12%; animation-delay: 3.5s;">🤘</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>COBRA TOOLS</h1>
+            <div class="subtitle">/// UNDERGROUND EDITION</div>
+            <div class="tagline">✖✖✖ NO CORPORATE BS ✖✖✖</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('scenario')">
+                📋 SCENARIO GEN
+            </button>
+            <button class="tab-button" onclick="switchTab('diagram')">
+                🗺️ LOGIC FLOWS
+            </button>
+        </div>
+
+        <!-- Scenario Generator Tab -->
+        <div id="scenario-tab" class="tab-content active">
+            <div class="card">
+                <div class="tape top-left"></div>
+                <div class="tape top-right"></div>
+                
+                <h2>CLIENT SETUP</h2>
+                
+                <div class="info-box">
+                    <h4>🔥 STRAIGHT UP</h4>
+                    <p>No handholding. No fluff. Just tell us what you need and we'll strip out everything else. This ain't your standard implementation guide.</p>
+                </div>
+
+                <div class="divider"></div>
+                
+                <div class="form-group">
+                    <label>Implementation Type</label>
+                    <select id="implementationType">
+                        <option value="loa">Leave of Absence (LOA)</option>
+                        <option value="retiree">Retiree</option>
+                        <option value="both">LOA + Retiree (Full Stack)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Direct Bill Platform</label>
+                    <select id="dbPlatform">
+                        <option value="standard">Standard (DB 2.0 with Pay Schedules)</option>
+                        <option value="db1">DB 1.0 (Legacy - No Pay Schedules)</option>
+                        <option value="grandfathered">Grandfathered (GF with Pay Schedules)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Benefits End Date</label>
+                    <select id="benefitsEndDate">
+                        <option value="eom">End of Month (FONM)</option>
+                        <option value="termDate">Termination Date</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="usePaySchedules">
+                    <label for="usePaySchedules">Client uses DB Pay Schedules</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="unpaidToPaid">
+                    <label for="unpaidToPaid">Unpaid LOA → Paid LOA transitions exist</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="loaReturnBeforeDB">
+                    <label for="loaReturnBeforeDB">Early returns (before Direct Bill kicks in)</label>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="form-group">
+                    <label>Retiree Benefit Class Code</label>
+                    <input type="text" id="retireeBenefitClass" placeholder="RET01, RETIRE, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label>Monthly Pay Frequency Code</label>
+                    <input type="text" id="monthlyPayFreq" placeholder="MONTHLY, M, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label>Certifi Billing Start Date</label>
+                    <input type="date" id="billStartDate">
+                </div>
+
+                <button class="button-primary" onclick="alert('🔥 Mapper generation coming soon! Connect this to your existing generation logic.')">
+                    🎯 GENERATE MAPPER
+                </button>
+
+                <div class="warning-box" style="margin-top: 40px;">
+                    <h4>⚠ REMEMBER THIS SHIT</h4>
+                    <ul>
+                        <li>✖ Update ALL blue cells - no placeholders in prod</li>
+                        <li>✖ Delete ALL green test rows</li>
+                        <li>✖ Run var_BillStartDate SQL (DB 2.0 only)</li>
+                        <li>✖ Pay Frequency MUST be in Field Definitions</li>
+                        <li>✖ Test EVERYTHING in unit testing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logic Diagram Tab -->
+        <div id="diagram-tab" class="tab-content">
+            <div class="card">
+                <h2>LOGIC FLOWS</h2>
+                
+                <div class="info-box">
+                    <h4>🗺️ HOW TO READ THIS</h4>
+                    <p>Color codes for the visual learners:</p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="color: #ff0080;"><strong>PINK:</strong> Decision points - where the logic branches</li>
+                        <li style="color: #00ff88;"><strong>GREEN:</strong> Actions - what actually gets mapped</li>
+                        <li style="color: #7928ca;"><strong>PURPLE:</strong> Variables - the magic that makes it work</li>
+                    </ul>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="tool-card">
+                    <h3>🔹 IDENTIFIER MAP</h3>
+                    <p>Runs FIRST. No exceptions. This is your foundation - screw it up here and everything falls apart.</p>
+                    <ul>
+                        <li>Relation = E (sets employee as primary member)</li>
+                        <li>Pay Frequency mapping (CRITICAL - must be in ID Map)</li>
+                        <li>Pay Schedule Input Date (tells system which pay cycle to use)</li>
+                        <li>LOA triggers (start/end dates for Direct Bill)</li>
+                    </ul>
+                </div>
+
+                <div class="tool-card">
+                    <h3>🔹 STANDARD MAP - LOA</h3>
+                    <p>The beast. Where all the complex LOA scenarios get handled. This is where most implementations break.</p>
+                    <ul>
+                        <li><strong>var_DBTermComplete:</strong> Total cleanup when employee terms</li>
+                        <li><strong>var_BillStartDate:</strong> Floor date from pay schedules (when Certifi can actually bill)</li>
+                        <li><strong>var_DBTerm:</strong> Terming while actively on Direct Bill</li>
+                        <li><strong>var_UnpaidtoPaid:</strong> Moving from unpaid (DB) to paid (payroll) LOA</li>
+                        <li><strong>var_DBRescind:</strong> Cancel Direct Bill - employee returns before it starts</li>
+                        <li><strong>var_DBStart:</strong> When to kick off Direct Bill (current vs next pay period)</li>
+                        <li><strong>var_DBEnd:</strong> When to shut down Direct Bill</li>
+                        <li><strong>var_LOAOnDB:</strong> Keep Direct Bill running for ongoing LOA</li>
+                    </ul>
+                </div>
+
+                <div class="tool-card">
+                    <h3>🔹 RETIREE DIRECT BILL</h3>
+                    <p>Simpler than LOA but still has gotchas. Retirement, rehires, and edge cases.</p>
+                    <ul>
+                        <li><strong>var_Retiree:</strong> New retiree initialization</li>
+                        <li><strong>var_RetireeOnDB:</strong> Maintain existing retirees (keeps them active)</li>
+                        <li><strong>var_RetireeRehire:</strong> End Direct Bill when they come back</li>
+                        <li><strong>var_DBRescind:</strong> Cancel if rehired before Direct Bill starts</li>
+                    </ul>
+                </div>
+
+                <div class="tool-card">
+                    <h3>🔹 DB 1.0 (LEGACY)</h3>
+                    <p>The old school platform. Simpler but more rigid. No pay schedule flexibility.</p>
+                    <ul>
+                        <li>No Pay Schedule logic (that's the whole point)</li>
+                        <li>No var_BillStartDate calculations</li>
+                        <li>Only uses FONM and EOM date functions</li>
+                        <li>ID Map stays unchanged (all logic in Standard Map)</li>
+                        <li>Less flexible but easier to understand</li>
+                    </ul>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="warning-box">
+                    <h4>⚠ DON'T FUCK THIS UP</h4>
+                    <p><strong>Pre-production checklist (actually follow it):</strong></p>
+                    <ul>
+                        <li>✖ Pay Frequency in Field Definitions (not optional)</li>
+                        <li>✖ Run var_BillStartDate SQL (DB 2.0 only)</li>
+                        <li>✖ Enable "Overwrite with Blank" for End Reason field</li>
+                        <li>✖ Delete ALL green test rows</li>
+                        <li>✖ Update ALL blue placeholder cells</li>
+                        <li>✖ Test every single scenario in unit testing</li>
+                        <li>✖ Variables must be SET before they're USED (order matters)</li>
+                    </ul>
+                </div>
+
+                <div class="info-box" style="margin-top: 30px;">
+                    <h4>📖 NEED MORE DETAILS?</h4>
+                    <p>This is the cliff notes version. For the full technical breakdown with every variable, condition, and edge case documented:</p>
+                </div>
+
+                <a href="cobra_logic_flow_reference.html" target="_blank" style="text-decoration: none;">
+                    <button class="button-primary" style="margin-top: 20px; width: 100%;">
+                        📖 FULL REFERENCE DOC
+                    </button>
+                </a>
+
+                <div class="divider"></div>
+
+                <div class="info-box">
+                    <h4>💀 QUESTIONS?</h4>
+                    <p>Hit up Kevin and Peggy. They wrote this madness.</p>
+                    <p style="margin-top: 10px; color: #ff0080;"><strong>Pro tip:</strong> Read the docs BEFORE asking questions. Your future self will thank you.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Easter egg: Konami code for extra chaos
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.key);
+            konamiCode = konamiCode.slice(-10);
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                document.body.style.animation = 'extremeGlitch 0.5s infinite';
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                    alert('🔥 CHAOS MODE ACTIVATED 🔥');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
