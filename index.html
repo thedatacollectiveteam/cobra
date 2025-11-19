@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💀 COBRA DB MAPPER GENERATOR 💀</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Bebas+Neue&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d0a2d 100%);
+            font-family: 'Bebas Neue', cursive;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,0,255,0.03) 2px, rgba(255,0,255,0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,255,255,0.03) 2px, rgba(0,255,255,0.03) 4px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.85);
+            border: 4px solid #ff00ff;
+            border-radius: 0;
+            padding: 30px;
+            box-shadow: 
+                0 0 30px rgba(255, 0, 255, 0.5),
+                inset 0 0 30px rgba(0, 255, 255, 0.1),
+                8px 8px 0 rgba(255, 255, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 0, 255, 0.02) 10px,
+                rgba(255, 0, 255, 0.02) 20px
+            );
+            animation: drift 20s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes drift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(50px, 50px) rotate(360deg); }
+        }
+        
+        h1 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 
+                3px 3px 0 #ff00ff,
+                6px 6px 0 #00ffff,
+                9px 9px 0 #ffff00,
+                12px 12px 20px rgba(0, 0, 0, 0.8);
+            color: #fff;
+            letter-spacing: 3px;
+            transform: rotate(-1deg);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.5em;
+            color: #00ffff;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 10px rgba(0, 255, 255, 0.8);
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #ff00ff, #8800ff);
+            color: #fff;
+            border: 3px solid #00ffff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            box-shadow: 4px 4px 0 rgba(255, 255, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .tab-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(255, 255, 0, 0.7);
+            background: linear-gradient(135deg, #ff00ff, #ff0088);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #00ff00, #00aa00);
+            border-color: #ffff00;
+            box-shadow: 4px 4px 0 rgba(255, 0, 255, 0.5);
+        }
+        
+        .tab-content {
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .section {
+            background: rgba(255, 0, 255, 0.05);
+            border-left: 5px solid #ff00ff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0;
+            box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2em;
+            color: #ffff00;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 #ff00ff, 4px 4px 10px rgba(255, 255, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #00ffff;
+            border-radius: 0;
+        }
+        
+        .question label {
+            display: block;
+            font-size: 1.3em;
+            color: #00ffff;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 5px rgba(0, 255, 255, 0.8);
+            letter-spacing: 1px;
+        }
+        
+        .question input[type="text"],
+        .question select,
+        .question textarea {
+            width: 100%;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            background: #000;
+            color: #00ff00;
+            border: 2px solid #ff00ff;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .question input[type="text"]:focus,
+        .question select:focus,
+        .question textarea:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+        
+        .question textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 10px 15px;
+            background: rgba(255, 0, 255, 0.1);
+            border: 2px solid #ff00ff;
+            transition: all 0.3s;
+        }
+        
+        .radio-option:hover {
+            background: rgba(255, 0, 255, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .radio-option label {
+            margin: 0 !important;
+            font-size: 1.2em !important;
+            cursor: pointer;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.05);
+            border: 2px solid #00ffff;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-option:hover {
+            background: rgba(0, 255, 255, 0.15);
+        }
+        
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checkbox-option label {
+            margin: 0 !important;
+            cursor: pointer;
+        }
+        
+        .help-text {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .generate-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2em;
+            background: linear-gradient(135deg, #ff00ff, #ff0088);
+            color: #fff;
+            border: 4px solid #ffff00;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            box-shadow: 6px 6px 0 rgba(255, 255, 0, 0.6);
+            letter-spacing: 3px;
+        }
+        
+        .generate-btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0 rgba(255, 255, 0, 0.8);
+            background: linear-gradient(135deg, #ff00ff, #ff00aa);
+        }
+        
+        .generate-btn:active {
+            transform: translate(0, 0);
+            box-shadow: 3px 3px 0 rgba(255, 255, 0, 0.6);
+        }
+        
+        .output {
+            margin-top: 30px;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .output.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .output-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2em;
+            color: #00ff00;
+            text-shadow: 2px 2px 0 #ff00ff, 4px 4px 10px rgba(0, 255, 0, 0.5);
+        }
+        
+        .copy-btn {
+            padding: 10px 20px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.3em;
+            background: linear-gradient(135deg, #00ff00, #00aa00);
+            color: #000;
+            border: 3px solid #ffff00;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 3px 3px 0 rgba(255, 0, 255, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .copy-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0 rgba(255, 0, 255, 0.7);
+        }
+        
+        .output-content {
+            background: #000;
+            color: #00ff00;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            border: 3px solid #00ff00;
+            max-height: 600px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.2);
+        }
+        
+        .output-content::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        .output-content::-webkit-scrollbar-track {
+            background: #000;
+            border: 1px solid #ff00ff;
+        }
+        
+        .output-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff00ff, #00ffff);
+            border: 1px solid #ffff00;
+        }
+        
+        .download-btn {
+            padding: 15px 30px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #00ffff, #0088ff);
+            color: #000;
+            border: 3px solid #ff00ff;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            box-shadow: 4px 4px 0 rgba(255, 255, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .download-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(255, 255, 0, 0.7);
+        }
+        
+        .conditional-section {
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 3px dashed #ffff00;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .conditional-section.show {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💀 COBRA DB MAPPER GENERATOR 💀</h1>
+        <div class="subtitle">⚡ BUILD YOUR MAPPER LIKE A BOSS ⚡</div>
+        
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('loa')">LOA MAPPER</button>
+            <button class="tab-btn" onclick="switchTab('retiree')">RETIREE MAPPER</button>
+        </div>
+        
+        <!-- LOA TAB -->
+        <div id="loa-tab" class="tab-content active">
+            <form id="loa-form">
+                <!-- DB Term Complete Logic -->
+                <div class="section">
+                    <div class="section-title">💥 DB TERMINATION SETUP 💥</div>
+                    
+                    <div class="question">
+                        <label>Does client have DB Term Complete logic?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="hasDBTerm" value="yes" id="dbterm-yes" onchange="toggleConditional('dbterm-details', this.checked)">
+                                <label for="dbterm-yes">HELL YES</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="hasDBTerm" value="no" id="dbterm-no" onchange="toggleConditional('dbterm-details', false)">
+                                <label for="dbterm-no">NOPE</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="dbterm-details" class="conditional-section">
+                        <div class="question">
+                            <label>What date field for Termination Date?</label>
+                            <input type="text" name="termDateField" placeholder="e.g., Current Termination Date">
+                            <div class="help-text">Usually "Current Termination Date" or a custom field</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- LOA to DB Logic -->
+                <div class="section">
+                    <div class="section-title">🔥 LOA → DB TRANSITION 🔥</div>
+                    
+                    <div class="question">
+                        <label>Is client going from Unpaid LOA to Direct Bill?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="unpaidToDB" value="yes" id="unpaid-yes" onchange="toggleConditional('unpaid-details', this.checked)">
+                                <label for="unpaid-yes">YUP</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="unpaidToDB" value="no" id="unpaid-no" onchange="toggleConditional('unpaid-details', false)">
+                                <label for="unpaid-no">NAH</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="unpaid-details" class="conditional-section">
+                        <div class="question">
+                            <label>LOA Pay Status values for UNPAID</label>
+                            <input type="text" name="unpaidValues" placeholder="e.g., U, UNPAID, 0">
+                            <div class="help-text">Comma-separated values</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- LOA Fields Setup -->
+                <div class="section">
+                    <div class="section-title">⚡ LOA FIELD MAPPING ⚡</div>
+                    
+                    <div class="question">
+                        <label>Does client send LOA Last Day Worked?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="hasLastDayWorked" value="yes" id="ldw-yes" onchange="toggleConditional('ldw-details', this.checked)">
+                                <label for="ldw-yes">YES</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="hasLastDayWorked" value="no" id="ldw-no" onchange="toggleConditional('ldw-details', false)">
+                                <label for="ldw-no">NO</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="ldw-details" class="conditional-section">
+                        <div class="question">
+                            <label>What's the source field name?</label>
+                            <input type="text" name="ldwField" placeholder="e.g., Current LOA Last Day Worked">
+                        </div>
+                    </div>
+                    
+                    <div class="question">
+                        <label>LOA Start Date field name</label>
+                        <input type="text" name="loaStartField" placeholder="e.g., Date used for LOA Start Date">
+                        <div class="help-text">This determines Last Day Worked if not sent</div>
+                    </div>
+                    
+                    <div class="question">
+                        <label>LOA End Date field name</label>
+                        <input type="text" name="loaEndField" placeholder="e.g., Date used for LOA End Date">
+                    </div>
+                </div>
+                
+                <!-- Bill Start Date -->
+                <div class="section">
+                    <div class="section-title">💰 BILLING START DATE 💰</div>
+                    
+                    <div class="question">
+                        <label>What's the var_BillStartDate formula?</label>
+                        <textarea name="billStartFormula" placeholder="e.g., FirstDayOfMonth(DateAdd(M;1;Date used for LOA Last Day Worked))"></textarea>
+                        <div class="help-text">Complex date calculation for when billing starts</div>
+                    </div>
+                    
+                    <div class="question">
+                        <label>Additional Bill Start Date conditions?</label>
+                        <textarea name="billStartConditions" placeholder="Any special conditions like 'If FMLA, use different formula'"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Pay Frequency -->
+                <div class="section">
+                    <div class="section-title">💸 PAY FREQUENCY 💸</div>
+                    
+                    <div class="question">
+                        <label>Default Pay Frequency for DB</label>
+                        <select name="payFrequency">
+                            <option value="">-- SELECT --</option>
+                            <option value="12">12 - Monthly</option>
+                            <option value="24">24 - Semi-Monthly</option>
+                            <option value="26">26 - Bi-Weekly</option>
+                            <option value="52">52 - Weekly</option>
+                        </select>
+                    </div>
+                    
+                    <div class="question">
+                        <label>Pay Frequency Effective Date logic</label>
+                        <input type="text" name="payFreqEffDate" placeholder="e.g., ValueOf(var_BillStartDate)">
+                    </div>
+                </div>
+                
+                <!-- Additional Requirements -->
+                <div class="section">
+                    <div class="section-title">🎯 SPECIAL REQUIREMENTS 🎯</div>
+                    
+                    <div class="question">
+                        <label>Check all that apply:</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="requirements" value="cobra" id="req-cobra">
+                                <label for="req-cobra">Include COBRA type logic</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="requirements" value="state" id="req-state">
+                                <label for="req-state">Include State Continuation logic</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="requirements" value="userra" id="req-userra">
+                                <label for="req-userra">Handle USERRA specially</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="requirements" value="military" id="req-military">
+                                <label for="req-military">Handle Military LOA specially</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="question">
+                        <label>Any other special sauce?</label>
+                        <textarea name="specialNotes" placeholder="Extra logic, edge cases, client quirks..."></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- RETIREE TAB -->
+        <div id="retiree-tab" class="tab-content">
+            <form id="retiree-form">
+                <!-- Rescind Logic -->
+                <div class="section">
+                    <div class="section-title">🚫 DB RESCIND LOGIC 🚫</div>
+                    
+                    <div class="question">
+                        <label>Do retirees return to active employment?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="canReturnActive" value="yes" id="return-yes" onchange="toggleConditional('return-details', this.checked)">
+                                <label for="return-yes">YES</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="canReturnActive" value="no" id="return-no" onchange="toggleConditional('return-details', false)">
+                                <label for="return-no">NO</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="return-details" class="conditional-section">
+                        <div class="question">
+                            <label>What field indicates return to active?</label>
+                            <input type="text" name="returnField" placeholder="e.g., Logic for returning to an Active Employment Status">
+                        </div>
+                        
+                        <div class="question">
+                            <label>Re-hire Date field name</label>
+                            <input type="text" name="rehireField" placeholder="e.g., Date used for Re-hire Date">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Retiree on DB Logic -->
+                <div class="section">
+                    <div class="section-title">👴 RETIREE STAYS ON DB 👴</div>
+                    
+                    <div class="question">
+                        <label>Employment Status code for Retiree</label>
+                        <input type="text" name="retireeEmpStatus" placeholder="e.g., R" value="R">
+                    </div>
+                    
+                    <div class="question">
+                        <label>File logic description for Employment Status R</label>
+                        <input type="text" name="retireeLogic" placeholder="e.g., File logic for Employment Status of R">
+                        <div class="help-text">Human-readable description of what triggers retiree status</div>
+                    </div>
+                </div>
+                
+                <!-- Benefit Class -->
+                <div class="section">
+                    <div class="section-title">🎓 BENEFIT CLASS SETUP 🎓</div>
+                    
+                    <div class="question">
+                        <label>Does retiree need specific Benefit Class?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="needsBenClass" value="yes" id="benclass-yes" onchange="toggleConditional('benclass-details', this.checked)">
+                                <label for="benclass-yes">YES</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="needsBenClass" value="no" id="benclass-no" onchange="toggleConditional('benclass-details', false)">
+                                <label for="benclass-no">NO</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="benclass-details" class="conditional-section">
+                        <div class="question">
+                            <label>Benefit Class Code for Retirees</label>
+                            <input type="text" name="retireebenClass" placeholder="e.g., RET01, RETIREE">
+                        </div>
+                        
+                        <div class="question">
+                            <label>Benefit Class Effective Date logic</label>
+                            <input type="text" name="benClassEffDate" placeholder="e.g., ValueOf(Retirement Date)">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bill Start Date -->
+                <div class="section">
+                    <div class="section-title">💰 RETIREE BILLING START 💰</div>
+                    
+                    <div class="question">
+                        <label>Is this a Wex conversion?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="isWexConversion" value="yes" id="wex-yes" onchange="toggleConditional('wex-details', this.checked)">
+                                <label for="wex-yes">YES</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="isWexConversion" value="no" id="wex-no" onchange="toggleConditional('wex-details', false)">
+                                <label for="wex-no">NO</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="wex-details" class="conditional-section">
+                        <div class="question">
+                            <label>Previous Wex wave Go Live date</label>
+                            <input type="text" name="wexGoLive" placeholder="e.g., 2024-01-01">
+                        </div>
+                    </div>
+                    
+                    <div class="question">
+                        <label>var_RetireeBillStartDate formula</label>
+                        <textarea name="retireeBillStart" placeholder="e.g., FirstDayOfMonth(DateAdd(M;1;Retirement Date))"></textarea>
+                    </div>
+                    
+                    <div class="question">
+                        <label>Employment Status Effective Date logic</label>
+                        <input type="text" name="empStatusEffDate" placeholder="Determined by requirements from CS Team">
+                    </div>
+                </div>
+                
+                <!-- Pay Frequency -->
+                <div class="section">
+                    <div class="section-title">💸 RETIREE PAY FREQUENCY 💸</div>
+                    
+                    <div class="question">
+                        <label>Pay Frequency for Retirees</label>
+                        <select name="retireePayFreq">
+                            <option value="">-- SELECT --</option>
+                            <option value="12">12 - Monthly</option>
+                            <option value="24">24 - Semi-Monthly</option>
+                            <option value="26">26 - Bi-Weekly</option>
+                            <option value="52">52 - Weekly</option>
+                            <option value="retain">Retain from Current</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Direct Bill Type -->
+                <div class="section">
+                    <div class="section-title">📋 DIRECT BILL TYPE 📋</div>
+                    
+                    <div class="question">
+                        <label>Direct Bill Type for Retirees</label>
+                        <select name="retireeDBType">
+                            <option value="">-- SELECT --</option>
+                            <option value="1">1 - COBRA</option>
+                            <option value="2">2 - State Continuation</option>
+                            <option value="3">3 - Retiree</option>
+                            <option value="4">4 - Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Special Requirements -->
+                <div class="section">
+                    <div class="section-title">🎯 RETIREE SPECIAL STUFF 🎯</div>
+                    
+                    <div class="question">
+                        <label>Additional requirements:</label>
+                        <textarea name="retireeSpecial" placeholder="Any special retiree logic, subsidy info, age requirements..."></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <button class="generate-btn" onclick="generateMapper()">🔥 GENERATE THAT MAPPER 🔥</button>
+        
+        <div id="output" class="output">
+            <div class="output-header">
+                <div class="output-title">💀 YOUR MAPPER 💀</div>
+                <button class="copy-btn" onclick="copyToClipboard()">📋 COPY</button>
+            </div>
+            <div id="output-content" class="output-content"></div>
+            <button class="download-btn" onclick="downloadMapper()">⬇️ DOWNLOAD CSV ⬇️</button>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tab + '-tab').classList.add('active');
+            
+            // Hide output when switching tabs
+            document.getElementById('output').classList.remove('show');
+        }
+        
+        function toggleConditional(id, show) {
+            const element = document.getElementById(id);
+            if (show) {
+                element.classList.add('show');
+            } else {
+                element.classList.remove('show');
+            }
+        }
+        
+        function generateMapper() {
+            const activeTab = document.querySelector('.tab-content.active').id;
+            let mapperContent = '';
+            
+            if (activeTab === 'loa-tab') {
+                mapperContent = generateLOAMapper();
+            } else {
+                mapperContent = generateRetireeMapper();
+            }
+            
+            document.getElementById('output-content').textContent = mapperContent;
+            document.getElementById('output').classList.add('show');
+            
+            // Scroll to output
+            document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function generateLOAMapper() {
+            const form = document.getElementById('loa-form');
+            const data = new FormData(form);
+            
+            let mapper = 'Type,Field Name,Operator,From Value,Destination Field,To Value,And\n';
+            mapper += 'Comment,####Incorporate into client\'s LOA Logic,,,,,\n';
+            
+            // DB Term Complete Logic
+            if (data.get('hasDBTerm') === 'yes') {
+                const termDateField = data.get('termDateField') || 'Current Termination Date';
+                
+                mapper += 'Demographic,Current Direct Bill Start Date,Equals,,var_DBTermComplete,YES,Y\n';
+                mapper += 'Demographic,Logic for Employment Status of T,,,,,\n';
+                mapper += 'Demographic,Current Direct Bill Start Date,Not Equal,,var_DBTermComplete,YES,Y\n';
+                mapper += 'Demographic,Current Direct Bill End Date,less than,9999-12-31 00:00:00,,,Y\n';
+                mapper += 'Demographic,Logic for Employment Status of T,,,,,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,Pay Frequency,ValueOf(Current Pay Frequency),\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,Pay Frequency Effective Date,ValueOf(Current Pay Frequency Effective Date),\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,LOA Status,@@blank,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,LOA Pay Status,@@blank,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,LOA Start Date,@@blank,\n';
+                mapper += `Demographic,var_DBTermComplete,Equals,YES,LOA End Date,ValueOf(${termDateField}),Y\n`;
+                mapper += 'Demographic,Current LOA End Date,IN,"Dec 31 9999 11:59PM;12/31/9999",,,\n';
+                mapper += `Demographic,var_DBTermComplete,Equals,YES,LOA Return from Leave Date,ValueOf(${termDateField}),Y\n`;
+                mapper += 'Demographic,Current LOA End Date,IN,"Dec 31 9999 11:59PM;12/31/9999",,,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,LOA End Date,@@blank,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,LOA Last Day Worked,@@blank,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,LOA Return from Leave Date,@@blank,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,Direct Bill Start Date,@@blank,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,Direct Bill Type,@@blank,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,Direct Bill End Date,@@blank,\n';
+                mapper += 'Demographic,var_DBTermComplete,Equals,YES,Direct Bill End Reason,ValueOf(Current Direct Bill End Reason),\n';
+            }
+            
+            // LOA Last Day Worked
+            const loaStartField = data.get('loaStartField') || 'Date used for LOA Start Date';
+            const loaEndField = data.get('loaEndField') || 'Date used for LOA End Date';
+            
+            if (data.get('hasLastDayWorked') === 'yes') {
+                const ldwField = data.get('ldwField') || 'Current LOA Last Day Worked';
+                mapper += `Demographic,Logic for going on all LOA,,,LOA Last Day Worked,ValueOf(${ldwField}),Y\n`;
+                mapper += 'Demographic,Current LOA Status,Not Equal,,,,\n';
+            }
+            
+            mapper += `Demographic,Logic for going on all LOA,,,LOA Last Day Worked,DateSubtract(D;1;${loaStartField}),\n`;
+            mapper += `Demographic,Logic for returning from all LOA,,,LOA Return from Leave Date,DateAdd(D;1;${loaEndField}),\n`;
+            
+            mapper += 'Comment,####Certifi Billing Start Date Variables,,,,,\n';
+            
+            // Bill Start Date
+            const billStartFormula = data.get('billStartFormula') || 'FirstDayOfMonth(DateAdd(M;1;Date used for LOA Last Day Worked))';
+            mapper += `Demographic,Logic for going on LOA,,,var_BillStartDate,${billStartFormula},\n`;
+            
+            // Unpaid to DB
+            if (data.get('unpaidToDB') === 'yes') {
+                const unpaidValues = data.get('unpaidValues') || 'U';
+                mapper += 'Comment,####Unpaid LOA to Direct Bill Logic,,,,,\n';
+                mapper += `Demographic,Current LOA Pay Status,IN,"${unpaidValues}",var_UnpaidLOA,YES,Y\n`;
+                mapper += 'Demographic,Logic for going on Unpaid LOA,,,,,\n';
+            }
+            
+            // Pay Frequency
+            const payFreq = data.get('payFrequency');
+            if (payFreq) {
+                const payFreqEffDate = data.get('payFreqEffDate') || 'ValueOf(var_BillStartDate)';
+                mapper += `Demographic,Logic for going on LOA,,,Pay Frequency,${payFreq},\n`;
+                mapper += `Demographic,Logic for going on LOA,,,Pay Frequency Effective Date,${payFreqEffDate},\n`;
+            }
+            
+            // Requirements
+            const requirements = form.querySelectorAll('input[name="requirements"]:checked');
+            if (requirements.length > 0) {
+                mapper += 'Comment,####Special Requirements,,,,,\n';
+                requirements.forEach(req => {
+                    mapper += `Comment,${req.value.toUpperCase()} logic required - see requirements,,,,,\n`;
+                });
+            }
+            
+            // Special notes
+            const specialNotes = data.get('specialNotes');
+            if (specialNotes) {
+                mapper += 'Comment,####Additional Notes,,,,,\n';
+                mapper += `Comment,${specialNotes.replace(/\n/g, ' ')},,,,,\n`;
+            }
+            
+            return mapper;
+        }
+        
+        function generateRetireeMapper() {
+            const form = document.getElementById('retiree-form');
+            const data = new FormData(form);
+            
+            let mapper = 'Type,Field Name,Operator,From Value,Destination Field,To Value,And\n';
+            mapper += 'Comment,####Rescind Retiree Direct Bill,,,,,\n';
+            
+            // Rescind Logic
+            if (data.get('canReturnActive') === 'yes') {
+                const returnField = data.get('returnField') || 'Logic for returning to an Active Employment Status';
+                const rehireField = data.get('rehireField') || 'Date used for Re-hire Date';
+                
+                mapper += 'Comment,Note: When a user returns to Active Employment Status,,,,,\n';
+                mapper += 'Demographic,Current Direct Bill Start Date,Not Equal,,var_DBRescind,YES,Y\n';
+                mapper += `Demographic,Current Employment Status,Equals,${data.get('retireeEmpStatus') || 'R'},,,Y\n`;
+                mapper += `Demographic,${returnField},,,,,Y\n`;
+                mapper += `Demographic,${rehireField},Not Equal,,,,Y\n`;
+                mapper += `Demographic,${rehireField},Less Than or equal to,ValueOf(Current Direct Bill Start Date),,,\n`;
+                mapper += 'Demographic,var_DBRescind,Equals,YES,Direct Bill End Date,ValueOf(Current Direct Bill Start Date),\n';
+                mapper += 'Demographic,var_DBRescind,Equals,YES,Direct Bill Type,5,\n';
+                mapper += 'Demographic,var_DBRescind,Equals,YES,Direct Bill End Reason,9,\n';
+            }
+            
+            mapper += 'Comment,####Retain Direct Bill and Pay Frequency for Retirees,,,,,\n';
+            
+            // Retiree stays on DB
+            const retireeStatus = data.get('retireeEmpStatus') || 'R';
+            const retireeLogic = data.get('retireeLogic') || 'File logic for Employment Status of R';
+            
+            mapper += 'Demographic,Current Direct Bill Start Date,Not Equal,,var_RetireeOnDB,Yes,Y\n';
+            mapper += `Demographic,Current Employment Status,Equals,${retireeStatus},,,Y\n`;
+            mapper += `Demographic,${retireeLogic},,,,,\n`;
+            mapper += 'Demographic,var_RetireeOnDB,Equals,Yes,Termination Date,@@blank,\n';
+            mapper += 'Demographic,var_RetireeOnDB,Equals,Yes,Termination Reason,@@blank,\n';
+            mapper += 'Demographic,var_RetireeOnDB,Equals,Yes,Direct Bill Start Date,ValueOf(Current Direct Bill Start Date),\n';
+            mapper += 'Demographic,var_RetireeOnDB,Equals,Yes,Direct Bill Type,ValueOf(Current Direct Bill Type),\n';
+            
+            // Pay Frequency
+            const payFreq = data.get('retireePayFreq');
+            if (payFreq === 'retain') {
+                mapper += 'Demographic,var_RetireeOnDB,Equals,Yes,Pay Frequency,ValueOf(Current Pay Frequency),\n';
+                mapper += 'Demographic,var_RetireeOnDB,Equals,Yes,Pay Frequency Effective Date,ValueOf(Current Pay Frequency Effective Date),\n';
+            } else if (payFreq) {
+                mapper += `Demographic,var_Retiree,Equals,Yes,Pay Frequency,${payFreq},\n`;
+            }
+            
+            mapper += 'Comment,####Retiree Direct Bill Start,,,,,\n';
+            mapper += 'Demographic,Logic for Retiree for Direct Bill,,,var_Retiree,YES,\n';
+            mapper += `Demographic,var_Retiree,Equals,Yes,Employment Status,${retireeStatus},\n`;
+            
+            const empStatusEffDate = data.get('empStatusEffDate') || 'Determined by requirements from CS Team';
+            mapper += `Demographic,var_Retiree,Equals,Yes,Employment Status Effective Date,${empStatusEffDate},\n`;
+            
+            // Benefit Class
+            if (data.get('needsBenClass') === 'yes') {
+                const benClass = data.get('retireebenClass');
+                const benClassEffDate = data.get('benClassEffDate');
+                if (benClass) {
+                    mapper += `Demographic,var_Retiree,Equals,Yes,Benefit Class Code,${benClass},\n`;
+                }
+                if (benClassEffDate) {
+                    mapper += `Demographic,var_Retiree,Equals,Yes,Benefit Class Effective Date,${benClassEffDate},\n`;
+                }
+            }
+            
+            mapper += 'Comment,####Certifi Billing Start Date Variables,,,,,\n';
+            
+            // Bill Start Date
+            let billStartValue = data.get('retireeBillStart') || 'FirstDayOfMonth(DateAdd(M;1;Retirement Date))';
+            
+            if (data.get('isWexConversion') === 'yes' && data.get('wexGoLive')) {
+                billStartValue = `For Wex Conversions: Set to ${data.get('wexGoLive')}`;
+            }
+            
+            mapper += `Demographic,var_Retiree,Equals,Yes,var_RetireeBillStartDate,${billStartValue},\n`;
+            mapper += 'Demographic,var_Retiree,Equals,Yes,Termination Date,@@blank,\n';
+            
+            // Direct Bill Type
+            const dbType = data.get('retireeDBType');
+            if (dbType) {
+                mapper += `Demographic,var_Retiree,Equals,Yes,Direct Bill Type,${dbType},\n`;
+            }
+            
+            // Special requirements
+            const special = data.get('retireeSpecial');
+            if (special) {
+                mapper += 'Comment,####Special Requirements,,,,,\n';
+                mapper += `Comment,${special.replace(/\n/g, ' ')},,,,,\n`;
+            }
+            
+            return mapper;
+        }
+        
+        function copyToClipboard() {
+            const content = document.getElementById('output-content').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ COPIED!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+        
+        function downloadMapper() {
+            const content = document.getElementById('output-content').textContent;
+            const activeTab = document.querySelector('.tab-content.active').id;
+            const filename = activeTab === 'loa-tab' ? 'LOA_Mapper.csv' : 'Retiree_Mapper.csv';
+            
+            const blob = new Blob([content], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
